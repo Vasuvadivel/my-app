@@ -15,13 +15,13 @@ node{
 	        }
 	    }
    stage('Build Docker Imager'){
-   sh 'docker build -t vasuvadivel/cicd-project:1.0 .'
+   sh 'docker build -t vasuvadivel/cicd-project:2.0 .'
    }
    stage('Docker Image Push'){
    withCredentials([string(credentialsId: 'dockerpass', variable: 'dockerpassword')]) {
    sh "docker login -u vasuvadivel -p ${dockerPassword}"
     }
-   sh 'docker push vasuvadivel/cicd-project:1.0'
+   sh 'docker push vasuvadivel/cicd-project:2.0'
    }
    
    stage('Remove Previous Container'){
@@ -31,7 +31,7 @@ node{
 		//  do nothing if there is an exception
 	}
    stage('Docker deployment'){
-   sh 'docker run -d -p 8100:8080 --name tomcattest saidamo/myweb:0.0.2' 
+   sh 'docker run -d -p 8100:8080 --name tomcattest vasuvadivel/cicd-project:2.0' 
    }
 }
 }
