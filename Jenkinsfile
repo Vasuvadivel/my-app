@@ -15,23 +15,22 @@ node{
 	        }
 	    }
    stage('Build Docker Imager'){
-   sh 'docker build -t vasuvadivel/cicd-project:2.0 .'
+   sh 'docker build -t vasuvadivel/new:3.0 .'
    }
    stage('Docker Image Push'){
    withCredentials([string(credentialsId: 'dockerpass', variable: 'dockerpassword')]) {
    sh "docker login -u vasuvadivel -p ${dockerPassword}"
     }
-   sh 'docker push vasuvadivel/cicd-project:2.0'
+   sh 'docker push vasuvadivel/new:3.0'
    }
-   
-   stage('Remove Previous Container'){
+    stage('Remove Previous Container'){
 	try{
 		sh 'docker rm -f tomcattest'
 	}catch(error){
 		//  do nothing if there is an exception
 	}
    stage('Docker deployment'){
-   sh 'docker run -d -p 8100:8080 --name tomcattest vasuvadivel/cicd-project:2.0' 
+   sh 'docker run -d -p 2103:8080 --name tomcattest vasuvadivel/new:3.0' 
    }
 }
 }
